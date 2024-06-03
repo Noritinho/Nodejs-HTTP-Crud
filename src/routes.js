@@ -48,6 +48,35 @@ export const routes = [
     }
   },
   {
+    method: "PUT",
+    path: buildRoutePath("/tasks/:id"),
+    handler: (req, res) => {
+      const { id } = req.params
+      const { title, description } = req.body
+
+      database.update("tasks", id, {
+        title,
+        description,
+        updated_at: new Date().toISOString().slice(0, 10)
+      })
+
+      return res.writeHead(204).end()
+    }
+  },
+  {
+    method: "PATCH",
+    path: buildRoutePath("/tasks/:id/complete"),
+    handler: (req, res) => {
+      const { id } = req.params
+
+      database.update("tasks", id, {
+        completed_at: new Date().toISOString().slice(0, 10)
+      })
+
+      return res.writeHead(204).end()
+    }
+  },
+  {
     method: "DELETE",
     path: buildRoutePath("/tasks/:id"),
     handler: (req, res) => {
